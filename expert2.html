@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery and Digital Clock with Weather</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .gallery { display: flex; flex-wrap: wrap; }
+  .gallery img { margin: 5px; border: 1px solid #ccc; }
+  .gallery img:hover { border-color: #777; }
+  .text-links { margin-top: 20px; }
+  .video-container, .local-video-container { display: flex; flex-wrap: wrap; gap: 10px; }
+  .video-container iframe, .local-video-container video { border: 1px solid #ccc; }
+  .clock-weather-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: black;
+      color: white;
+      font-size: 5em;
+      font-family: 'Courier New', monospace;
+  }
+  #clock, #weather, #date {
+      text-align: center;
+  }
+  button {
+      display: block;
+      width: 200px;
+      height: 50px;
+      margin: 50px auto;
+      font-size: 1em;
+  }
+</style>
+</head>
+<body>
+  <h1>My Gallery</h1>
+  <div class="gallery">
+    <img src="/home/duane-richardson/web_total/DinnerNightout.jpg" alt="Description" width="300" height="200">
+    <img src="/home/duane-richardson/web_total/mojoConstruction.jpg" alt="Description" width="300" height="200">
+    <img src="/home/duane-richardson/web_total/bugsview.jpg" alt="Description" width="300" height="200">
+    <img src="/home/duane-richardson/web_total/OTCInfocommons.jpg" alt="Description" width="300" height="200">
+    <img src="/home/duane-richardson/web_total/Londoncalling.jpg" alt="Description" width="300" height="200">
+    <!-- Add your image files here -->
+  </div>
+  
+  <h2>My Videos</h2>
+  <div class="video-container">
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/r6eB3JrCXnA" frameborder="0" allowfullscreen></iframe>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/co_jkMUkAeE" frameborder="0" allowfullscreen></iframe>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/-dNZx7I-6yA" frameborder="0" allowfullscreen></iframe>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/oEx5VfJZZ2U" frameborder="0" allowfullscreen></iframe>
+    <iframe width="300" height="200" src="https://www.youtube.com/embed/JEfxhHXAy9E" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+  <h2>Local Videos</h2>
+  <div class="local-video-container">
+    <video width="300" height="200" controls>
+      <source src="/home/duane-richardson/web_total/V1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <video width="300" height="200" controls>
+      <source src="/home/duane-richardson/web_total/V2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <video width="300" height="200" controls>
+      <source src="/home/duane-richardson/web_total/V3.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <video width="300" height="200" controls>
+      <source src="/home/duane-richardson/web_total/V4.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <video width="300" height="200" controls>
+      <source src="/home/duane-richardson/web_total/V5.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <meta charset="UTF-8">
+  <title>World Clocks</title>
+  <style>
+      .clock-container {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 20px;
+      }
+      .clock {
+          border: 1px solid #000;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+          width: 150px;
+      }
+      .clock h2 {
+          margin-bottom: 10px;
+      }
+  </style>
+  <script>
+      function updateClocks() {
+          const timeZones = {
+              'Eastern': 'America/New_York',
+              'Central': 'America/Chicago',
+              'Mountain': 'America/Denver',
+              'Pacific': 'America/Los_Angeles',
+              'London': 'Europe/London'
+          };
+          
+          for (const [zone, tz] of Object.entries(timeZones)) {
+              const now = new Date().toLocaleString('en-US', { timeZone: tz });
+              document.getElementById(`${zone.toLowerCase()}-clock`).textContent = now;
+          }
+      }
+
+      setInterval(updateClocks, 1000);
+      window.onload = updateClocks;
+  </script>
+</head>
+<body>
+  <h1>World Clocks</h1>
+  <div class="clock-container">
+      <div class="clock">
+          <h2>Eastern</h2>
+          <div id="eastern-clock"></div>
+      </div>
+      <div class="clock">
+          <h2>Central</h2>
+          <div id="central-clock"></div>
+      </div>
+      <div class="clock">
+          <h2>Mountain</h2>
+          <div id="mountain-clock"></div>
+      </div>
+      <div class="clock">
+          <h2>Pacific</h2>
+          <div id="pacific-clock"></div>
+      </div>
+      <div class="clock">
+          <h2>London</h2>
+          <div id="london-clock"></div>
+      </div>
+  </div>
+  <div class="text-links">
+    <h2>Text Files</h2>
+    <a href="/home/duane-richardson/Documents/CNotes.txt">Career Notes</a>
+</div>    
+    <a href="/home/duane-richardson/Documents/ls_commands.txt">CMD Training</a>
+    <!-- Add your text file links here -->
+  </div>
+
+  <div id="Youtube">
+    <h1>Youtube</h1>
+    <a href="https://www.youtube.com/@ddriverddroner" target="_self" title="youtube">Your YouTube Channel</a>
+  </div>
+</body>
+</html>
