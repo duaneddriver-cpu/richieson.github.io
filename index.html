@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery, Videos & World Clocks</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1, h2 { text-align: center; }
-
-    /* Gallery */
-    .gallery { display: flex; flex-wrap: wrap; justify-content: center; }
-    .gallery img { margin: 5px; border: 1px solid #ccc; width: 300px; height: 200px; object-fit: cover; }
-    .gallery img:hover { border-color: #777; }
-
-    /* Video containers */
-    .video-container, .local-video-container {
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-    }
-    .video-container iframe, .local-video-container video {
-      border: 1px solid #ccc;
-    }
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Like Chris</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #2c08cc, #98e704); /* Gradient background */
+            padding-top: 1in; /* Adds approximately 2 inches of space at the top 
+        }
+     
     /* World clocks */
     .clock-container {
       display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;
@@ -30,79 +19,28 @@
       text-align: center; width: 150px;
     }
     .clock h2 { margin-bottom: 10px; }
-
-    /* Text links */
-    .text-links { margin-top: 30px; text-align: center; }
-    .text-links a { display: block; margin: 5px 0; }
-  </style>
+   
+        
+    </style>
 </head>
-<body>
-
-  <h1>My Gallery</h1>
-  <div class="gallery">
-    <img src="images/DinnerNightout.jpg" alt="Dinner Night Out">
-    <img src="images/mojoConstruction.jpg" alt="Mojo Construction">
-    <img src="images/bugsview.jpg" alt="Bugs View">
-    <img src="images/OTCInfocommons.jpg" alt="OTC Infocommons">
-    <img src="images/Londoncalling.jpg" alt="London Calling">
-  </div>
-
-  <h2>YouTube Videos</h2>
-  <div class="video-container">
-    <iframe width="300" height="200" src="https://www.youtube.com/embed/r6eB3JrCXnA" frameborder="0" allowfullscreen></iframe>
-    <iframe width="300" height="200" src="https://www.youtube.com/embed/co_jkMUkAeE" frameborder="0" allowfullscreen></iframe>
-    <iframe width="300" height="200" src="https://www.youtube.com/embed/-dNZx7I-6yA" frameborder="0" allowfullscreen></iframe>
-    <iframe width="300" height="200" src="https://www.youtube.com/embed/oEx5VfJZZ2U" frameborder="0" allowfullscreen></iframe>
-    <iframe width="300" height="200" src="https://www.youtube.com/embed/JEfxhHXAy9E" frameborder="0" allowfullscreen></iframe>
-  </div>
-
-  <h2>Local Videos</h2>
-  <div class="local-video-container">
-    <video width="300" height="200" controls>
-      <source src="videos/V1.mp4" type="video/mp4">
-    </video>
-    <video width="300" height="200" controls>
-      <source src="videos/V2.mp4" type="video/mp4">
-    </video>
-    <video width="300" height="200" controls>
-      <source src="videos/V3.mp4" type="video/mp4">
-    </video>
-    <video width="300" height="200" controls>
-      <source src="videos/V4.mp4" type="video/mp4">
-    </video>
-    <video width="300" height="200" controls>
-      <source src="videos/V5.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <h1>World Clocks</h1>
+<h1>Hello World</h1>
+<h1>World Clocks</h1>
   <div class="clock-container">
-    <div class="clock"><h2>Eastern</h2><div id="eastern-clock"></div></div>
-    <div class="clock"><h2>Central</h2><div id="central-clock"></div></div>
-    <div class="clock"><h2>Mountain</h2><div id="mountain-clock"></div></div>
     <div class="clock"><h2>Pacific</h2><div id="pacific-clock"></div></div>
+    <div class="clock"><h2>Mountain</h2><div id="mountain-clock"></div></div>
+    <div class="clock"><h2>Central</h2><div id="central-clock"></div></div>
+    
+    <div class="clock"><h2>Eastern</h2><div id="eastern-clock"></div></div>
     <div class="clock"><h2>London</h2><div id="london-clock"></div></div>
   </div>
-
-  <div class="text-links">
-    <h2>Text Files</h2>
-    <a href="docs/CNotes.txt">Career Notes</a>
-    <a href="docs/ls_commands.txt">CMD Training</a>
-  </div>
-
-  <div id="Youtube" style="text-align:center; margin-top:30px;">
-    <h2>My YouTube Channel</h2>
-    <a href="https://www.youtube.com/@ddriverddroner" target="_blank">Visit Channel</a>
-  </div>
-
-  <script>
+    <script>
     function updateClocks() {
       const timeZones = {
-        'Eastern': 'America/New_York',
-        'Central': 'America/Chicago',
-        'Mountain': 'America/Denver',
         'Pacific': 'America/Los_Angeles',
-        'London': 'Europe/London'
+        'Mountain': 'America/Denver',
+       'Central': 'America/Chicago', 
+       'Eastern': 'America/New_York',
+      'London': 'Europe/London'
       };
       for (const [zone, tz] of Object.entries(timeZones)) {
         const now = new Date().toLocaleString('en-US', { timeZone: tz });
@@ -112,6 +50,38 @@
     setInterval(updateClocks, 1000);
     window.onload = updateClocks;
   </script>
+<body>
+    
+    <h2>🎬 DdriverDdroner YouTube Videos</h2>
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: auto;">
+   <a href="https://www.youtube.com/channel/UCDcarBfr4gK8D9fo-_fozNA" target="_blank">
+    <button>DDRonER </button>
+  </a>
+  <a href="https://www.youtube.com/watch?app=desktop&v=gXkkovc_1rk"  target="_blank">
+    <button>Kimberling City, Missouri </button>
+  <a href="https://www.youtube.com/watch?v=JEfxhHXAy9E" target="_blank">
+    <button>Fellows Lake, Springfield, MO</button>
+  </a>
+  <a href="https://www.youtube.com/watch?v=LwCCiaCC29g" target="_blank">
+    <button>Branson Belle (Before and After)</button>
+  </a>
+  <a href="https://www.youtube.com/watch?v=cSr6tABeVc4" target="_blank">
+    <button>Season Greetings –  Holiday Vibes</button>
+  </a>
+  <a href="https://www.youtube.com/@DdriverDdroner/videos" target="_blank">
+    <button>DDRivER</button>
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=VTXx9clE21I" target="_blank">
+    <button>Train/Tracks Part II – Song “Two Sides”</button>
+  </a>
+  <a href="https://www.youtube.com/watch?v=co_jkMUkAeE" target="_blank">
+    <button>You Don’t Just Get In and Drive – Driving Skills Tribute</button>
+  </a>
+  <a href="https://www.youtube.com/watch?v=r6eB3JrCXnA" target="_blank">
+    <button>Retiring of a power station (Blasting for Better)</button>
+  </a>
+</div>
 
 </body>
 </html>
