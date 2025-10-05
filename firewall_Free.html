@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Open-Source Firewall Comparison</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: A dashboard-style, single-page application with a sticky top navigation for smooth scrolling. The structure is thematic to allow for non-linear exploration. It starts with a high-level overview, moves to an an interactive 'Deep Dive' comparison using buttons to dynamically change content, followed by a 'Hardware Guide' with an interactive chart and a pros/cons table, and concludes with a 'Use Case Explorer' where users can click scenarios to get recommendations. This structure was chosen to transform the static report into an engaging, user-driven exploratory tool, making complex comparisons more digestible and task-oriented. -->
+    <!-- Visualization & Content Choices: 1. Overview Table (HTML/Tailwind) -> Goal: Inform -> Simple static table for immediate context. 2. Deep Dive Comparison (JS DOM Manipulation) -> Goal: Compare/Organize -> Buttons dynamically update text blocks for focused, side-by-side analysis without overwhelming the user. 3. Hardware Chart (Chart.js/Canvas) -> Goal: Compare -> An interactive bar chart visualizes numerical data, with toggles to switch between min/recommended specs, making data more impactful than a static table. 4. Use Case Explorer (JS DOM Manipulation) -> Goal: Inform -> Interactive cards highlight recommendations for specific user needs, making the report's conclusions actionable. 5. Pros & Cons Table (HTML/Tailwind) -> Goal: Inform/Compare -> A simple table to provide a direct, scannable comparison of software vs. hardware firewall types. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfdfc;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+        .active-tab {
+            background-color: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+        .use-case-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .use-case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .active-case {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Firewall Explorer</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link text-gray-600 font-medium">Overview</a>
+                <a href="#deep-dive" class="nav-link text-gray-600 font-medium">Deep Dive</a>
+                <a href="#hardware" class="nav-link text-gray-600 font-medium">Hardware Guide</a>
+                <a href="#use-cases" class="nav-link text-gray-600 font-medium">Use Cases</a>
+            </div>
+            <div class="md:hidden">
+                <select id="mobile-nav" class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option value="#overview">Overview</option>
+                    <option value="#deep-dive">Deep Dive</option>
+                    <option value="#hardware">Hardware Guide</option>
+                    <option value="#use-cases">Use Cases</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <section id="overview" class="mb-16 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Evaluation of Open-Source Firewalls</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 mb-8">
+                This interactive dashboard provides a comprehensive comparison of three leading open-source firewall platforms: pfSense, OPNsense, and IPFire. Explore their architectures, features, and ideal use cases to find the best solution for your needs.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700">Criterion</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700">pfSense</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700">OPNsense</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-700">IPFire</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600">
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">Architectural Base</td>
+                            <td class="py-3 px-4">FreeBSD</td>
+                            <td class="py-3 px-4">FreeBSD (fork of pfSense)</td>
+                            <td class="py-3 px-4">Linux (from Scratch)</td>
+                        </tr>
+                        <tr class="border-b bg-gray-50">
+                            <td class="py-3 px-4 font-medium">Primary Design Philosophy</td>
+                            <td class="py-3 px-4">Enterprise-grade, robust with commercial backing</td>
+                            <td class="py-3 px-4">User-friendly, modern GUI, open community governance</td>
+                            <td class="py-3 px-4">Secure by design, simplified with zone-based segmentation</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="py-3 px-4 font-medium">Primary IDS/IPS Engine</td>
+                            <td class="py-3 px-4">Snort-based</td>
+                            <td class="py-3 px-4">Suricata-based</td>
+                            <td class="py-3 px-4">Suricata-based</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-3 px-4 font-medium">Primary Development Sponsor</td>
+                            <td class="py-3 px-4">Netgate</td>
+                            <td class="py-3 px-4">Deciso</td>
+                            <td class="py-3 px-4">Lightning Wire Labs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="deep-dive" class="mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Deep Dive Comparison</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 mb-8 text-center">
+                Select a category to compare the firewalls side-by-side. This section allows for a detailed examination of specific features and philosophies, helping you understand the nuanced differences between each platform.
+            </p>
+            <div id="tabs-container" class="flex flex-wrap justify-center gap-2 mb-8">
+                <button data-tab="architecture" class="tab-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none active-tab">Architecture</button>
+                <button data-tab="ui" class="tab-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">User Interface</button>
+                <button data-tab="security" class="tab-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">Security & VPN</button>
+                <button data-tab="ecosystem" class="tab-btn px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">Ecosystem</button>
+            </div>
+
+            <div id="tab-content" class="grid md:grid-cols-3 gap-6">
+            </div>
+        </section>
+
+        <section id="hardware" class="mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Hardware Guide</h2>
+             <p class="max-w-3xl mx-auto text-gray-600 mb-8 text-center">
+                The performance of these software firewalls is directly tied to the hardware they run on. Use the toggles below to visualize the minimum and recommended system requirements for each platform. Pay close attention to how RAM and storage recommendations scale for professional use.
+            </p>
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="min-specs-btn" class="px-5 py-2.5 bg-blue-500 text-white font-medium rounded-lg text-sm focus:outline-none active-tab">Minimum Specs</button>
+                <button id="rec-specs-btn" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg text-sm hover:bg-gray-100 focus:outline-none">Recommended Specs</button>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md mb-8">
+                <div class="chart-container">
+                    <canvas id="hardwareChart"></canvas>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Pros of Software Firewalls</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                        <li><strong>Flexibility:</strong> Software firewalls can be installed on standard server hardware, allowing you to scale up resources like CPU, RAM, and storage as your network grows without replacing the entire device.</li>
+                        <li><strong>Cost-Effectiveness:</strong> The initial investment is often lower since you can use existing or commodity hardware, avoiding the premium price of a dedicated appliance.</li>
+                        <li><strong>Customization:</strong> They are highly customizable through add-ons and packages, allowing you to tailor the firewall to specific needs such as advanced VPN protocols, content filtering, or intrusion detection.</li>
+                        <li><strong>Vendor Independence:</strong> You aren't locked into a single vendor's hardware or software ecosystem, giving you the freedom to choose your preferred operating system and support model.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Cons of Software Firewalls</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                        <li><strong>Performance Overhead:</strong> They may not be as fast as dedicated hardware firewalls, especially for high-throughput networks, because they rely on general-purpose hardware and operating systems that aren't optimized for packet processing.</li>
+                        <li><strong>Complex Setup:</strong> The initial setup can be more complex and require more technical expertise than a plug-and-play hardware appliance. You are responsible for driver compatibility and configuring the base OS.</li>
+                        <li><strong>Hardware Failure:</strong> A failure of the underlying hardware can bring down the firewall, and you have to manage component replacements, unlike a hardware appliance that can often be replaced as a single unit.</li>
+                        <li><strong>Power Consumption:</strong> They can consume more power than purpose-built hardware appliances, which are often designed to be highly energy-efficient.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="use-cases">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Use Case Explorer</h2>
+            <p class="max-w-3xl mx-auto text-gray-600 mb-8 text-center">
+                Not sure which firewall is right for you? Click on a scenario below to see our recommendations based on the report's findings. This helps translate features and specs into practical advice for your specific environment.
+            </p>
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div id="case-soho" class="use-case-card cursor-pointer p-6 bg-white border-2 border-gray-200 rounded-lg text-center">
+                    <h3 class="text-xl font-semibold text-gray-800">🏠 Home / SOHO</h3>
+                </div>
+                <div id="case-smb" class="use-case-card cursor-pointer p-6 bg-white border-2 border-gray-200 rounded-lg text-center">
+                    <h3 class="text-xl font-semibold text-gray-800">🏢 Small/Medium Business</h3>
+                </div>
+                <div id="case-enterprise" class="use-case-card cursor-pointer p-6 bg-white border-2 border-gray-200 rounded-lg text-center">
+                    <h3 class="text-xl font-semibold text-gray-800">🔬 Enterprise / Lab</h3>
+                </div>
+            </div>
+            <div id="use-case-details" class="bg-white p-6 rounded-lg shadow-md min-h-[200px]">
+                <p class="text-gray-500 text-center pt-16">Select a use case above to see recommendations.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 mt-16">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>Interactive dashboard developed to visualize the "Evaluation of Open-Source Network Firewall Platforms" report.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deepDiveData = {
+                architecture: [
+                    {
+                        title: 'pfSense',
+                        content: 'Built on a customized distribution of FreeBSD. It has a long-established history as a powerful, enterprise-grade replacement for commercial firewalls. Its development is commercially backed by Netgate, ensuring a stable and professionally managed development cycle.'
+                    },
+                    {
+                        title: 'OPNsense',
+                        content: 'A fork of pfSense, also based on FreeBSD. It was created with a mission to be more open, friendly, and transparent. It emphasizes a community-driven development model with a frequent and predictable update cycle.'
+                    },
+                    {
+                        title: 'IPFire',
+                        content: 'A hardened, open-source firewall built on Linux from Scratch. It functions as a complete, dedicated security operating system. Its most unique feature is a color-coded "zone" model (Red, Green, Blue, Orange) to simplify network segmentation.'
+                    }
+                ],
+                ui: [
+                    {
+                        title: 'pfSense',
+                        content: 'Features a functional, classic web-based GUI. While powerful and offering deep, granular control, its interface is considered less modern compared to its counterparts. Full command-line access is available for advanced users.'
+                    },
+                    {
+                        title: 'OPNsense',
+                        content: 'Its primary distinction is a sleek, modern, and intuitive web-based management interface. It is designed to be highly approachable, simplifying configuration for users who may not have extensive command-line experience.'
+                    },
+                    {
+                        title: 'IPFire',
+                        content: 'Provides a clean and intuitive web GUI. Management is greatly simplified by its zone-based model, which makes firewall rules and network segmentation visually clear and easy to configure, even for complex setups.'
+                    }
+                ],
+                security: [
+                    {
+                        title: 'pfSense',
+                        content: 'Provides IDS/IPS via a Snort-based package. It supports comprehensive VPN services including OpenVPN, IPsec, and WireGuard. Also features multi-WAN load balancing and high availability for robust uptime.'
+                    },
+                    {
+                        title: 'OPNsense',
+                        content: 'Integrates the modern Suricata engine for IDS/IPS. It supports the same VPN protocols as pfSense and uses CARP (Common Address Redundancy Protocol) for hardware failover, ensuring uninterrupted service.'
+                    },
+                    {
+                        title: 'IPFire',
+                        content: 'Also leverages Suricata for real-time threat detection. It provides full support for OpenVPN, IPsec, and WireGuard. While it supports multi-WAN failover, its high availability features are less extensive than the FreeBSD-based options.'
+                    }
+                ],
+                ecosystem: [
+                    {
+                        title: 'pfSense',
+                        content: 'Backed by Netgate, which provides hardware, paid support, and a licensed "Plus" version. This commercial backing ensures long-term viability. It has a very large and active community with extensive forums and documentation.'
+                    },
+                    {
+                        title: 'OPNsense',
+                        content: 'Sponsored by the company Deciso. It maintains a strong commitment to open governance and transparency. Its community is vibrant and active, with a predictable release cycle of two major updates per year.'
+                    },
+                    {
+                        title: 'IPFire',
+                        content: 'Supported by Lightning Wire Labs, which offers professional services. The project is maintained by a dedicated security-focused team that releases frequent updates to patch vulnerabilities quickly. It is described as "Free As In Freedom".'
+                    }
+                ]
+            };
+
+            const tabContainer = document.getElementById('tab-content');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+
+            function displayTabContent(tab) {
+                tabContainer.innerHTML = '';
+                deepDiveData[tab].forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-lg shadow-md';
+                    card.innerHTML = `<h3 class="text-xl font-semibold text-gray-800 mb-3">${item.title}</h3><p class="text-gray-600">${item.content}</p>`;
+                    tabContainer.appendChild(card);
+                });
+            }
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active-tab'));
+                    button.classList.add('active-tab');
+                    displayTabContent(button.dataset.tab);
+                });
+            });
+
+            displayTabContent('architecture');
+
+            const hardwareData = {
+                min: {
+                    labels: ['pfSense', 'OPNsense', 'IPFire'],
+                    ram: [0.5, 2, 1],
+                    storage: [1, 4, 4]
+                },
+                rec: {
+                    labels: ['pfSense', 'OPNsense', 'IPFire'],
+                    ram: [1, 8, 4],
+                    storage: [4, 120, 120]
+                }
+            };
+
+            const ctx = document.getElementById('hardwareChart').getContext('2d');
+            let hardwareChart;
+
+            function createChart(specType) {
+                if (hardwareChart) {
+                    hardwareChart.destroy();
+                }
+
+                const data = hardwareData[specType];
+                const isStorageLog = specType === 'rec';
+
+                hardwareChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [
+                            {
+                                label: 'RAM (GB)',
+                                data: data.ram,
+                                backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                                borderColor: 'rgba(59, 130, 246, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Storage (GB)',
+                                data: data.storage,
+                                backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                                borderColor: 'rgba(16, 185, 129, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                type: isStorageLog ? 'logarithmic' : 'linear',
+                                title: {
+                                    display: true,
+                                    text: `Gigabytes (GB) ${isStorageLog ? '- Logarithmic Scale' : ''}`
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y + ' GB';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: `${specType === 'min' ? 'Minimum' : 'Recommended'} System Requirements`,
+                                font: { size: 16 }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const minSpecsBtn = document.getElementById('min-specs-btn');
+            const recSpecsBtn = document.getElementById('rec-specs-btn');
+
+            minSpecsBtn.addEventListener('click', () => {
+                createChart('min');
+                minSpecsBtn.classList.add('active-tab');
+                recSpecsBtn.classList.remove('active-tab');
+            });
+
+            recSpecsBtn.addEventListener('click', () => {
+                createChart('rec');
+                recSpecsBtn.classList.add('active-tab');
+                minSpecsBtn.classList.remove('active-tab');
+            });
+
+            createChart('min');
+
+            const useCases = {
+                soho: {
+                    title: '🏠 Recommendations for Home / SOHO',
+                    content: `
+                        <p class="mb-4">For home and small office environments, usability and a modern interface are often key priorities. Both <strong>OPNsense</strong> and <strong>IPFire</strong> are excellent choices.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>OPNsense:</strong> Highly recommended for its modern, intuitive web interface which simplifies setup and management, making it very approachable for users new to enterprise-grade firewalls.</li>
+                            <li><strong>IPFire:</strong> A strong contender due to its straightforward, zone-based security model. This makes network segmentation (e.g., separating Wi-Fi from your trusted LAN) visually clear and easy to manage.</li>
+                        </ul>`
+                },
+                smb: {
+                    title: '🏢 Recommendations for Small to Medium-Sized Businesses',
+                    content: `
+                        <p class="mb-4">For SMBs, stability, a robust feature set, and the availability of professional support are critical. <strong>pfSense</strong> is a highly suitable option.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>pfSense:</strong> Its long history and powerful features provide the stability and granular control required for a business environment. The availability of professional support from Netgate offers a reliable safety net for critical deployments.</li>
+                            <li><strong>OPNsense:</strong> A viable alternative, especially for tech-forward SMBs. Its frequent updates and strong community can be advantageous for organizations that prioritize a rapid response to new security vulnerabilities.</li>
+                        </ul>`
+                },
+                enterprise: {
+                    title: '🔬 Recommendations for Enterprise / Lab Environments',
+                    content: `
+                        <p class="mb-4">In complex enterprise or academic lab settings, flexibility, scalability, and advanced features like high availability are paramount. Both <strong>pfSense</strong> and <strong>OPNsense</strong> are well-equipped for this role.</p>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>pfSense & OPNsense:</strong> Both provide high-availability clustering, multi-WAN load balancing, and extensive package managers for tailoring the system to complex network architectures.</li>
+                            <li><strong>The Choice:</strong> The decision often comes down to administrator preference: pfSense for its established, stable ecosystem, versus OPNsense for its modern interface and community-driven, transparent development model. Both can be deployed on powerful hardware or as virtual machines.</li>
+                        </ul>`
+                }
+            };
+            
+            const useCaseCards = {
+                soho: document.getElementById('case-soho'),
+                smb: document.getElementById('case-smb'),
+                enterprise: document.getElementById('case-enterprise')
+            };
+            const useCaseDetailsContainer = document.getElementById('use-case-details');
+
+            function displayUseCase(caseKey) {
+                const details = useCases[caseKey];
+                useCaseDetailsContainer.innerHTML = `<h3 class="text-2xl font-semibold text-gray-800 mb-4">${details.title}</h3><div class="text-gray-600">${details.content}</div>`;
+                
+                Object.values(useCaseCards).forEach(card => card.classList.remove('active-case'));
+                useCaseCards[caseKey].classList.add('active-case');
+            }
+
+            useCaseCards.soho.addEventListener('click', () => displayUseCase('soho'));
+            useCaseCards.smb.addEventListener('click', () => displayUseCase('smb'));
+            useCaseCards.enterprise.addEventListener('click', () => displayUseCase('enterprise'));
+
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.addEventListener('change', (event) => {
+                window.location.hash = event.target.value;
+            });
+        });
+    </script>
+</body>
+</html>
