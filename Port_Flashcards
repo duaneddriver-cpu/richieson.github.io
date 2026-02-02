@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Ports Flashcards - Expanded</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; padding: 20px; }
+        h1 { text-align: center; color: #2c3e50; }
+        h2 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 40px; color: #2980b9; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+        
+        /* Flashcard Container */
+        .flashcard { background-color: transparent; width: 100%; height: 160px; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 10px; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+        /* Front and Back Styling */
+        .front, .back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; border-radius: 10px; border: 1px solid #ddd; }
+        .front { background-color: #fff; color: #2c3e50; font-size: 1.5rem; font-weight: bold; }
+        .back { background-color: #3498db; color: white; transform: rotateY(180deg); font-size: 0.95rem; line-height: 1.4; }
+        .protocol { font-weight: bold; color: #ffd700; margin-top: 5px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <h1>Network Ports Flashcards</h1>
+    <p style="text-align: center;">Updated with full list for PenTest+ / CySA+ prep. Click to flip.</p>
+
+    <h2>🛡️ Core Connectivity & Shells</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">20</div>
+                <div class="back">FTP Data<br>Actual file transfer<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">21</div>
+                <div class="back">FTP Control<br>Commands/Auth (Insecure)<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">22</div>
+                <div class="back">SSH<br>Secure Shell / SFTP / SCP<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">23</div>
+                <div class="back">Telnet<br>Insecure Remote Access<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>🌐 Web & Directory Services</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">53</div>
+                <div class="back">DNS<br>Domain Name System<div class="protocol">UDP (Queries) / TCP (Zones)</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">80</div>
+                <div class="back">HTTP<br>Unencrypted Web Traffic<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">88</div>
+                <div class="back">Kerberos<br>AD Authentication Ticket System<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">389</div>
+                <div class="back">LDAP<br>Directory Service Queries<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">443</div>
+                <div class="back">HTTPS<br>Secure Web (TLS/SSL)<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>🪟 Windows & Infrastructure</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">135</div>
+                <div class="back">Microsoft EPMAP<br>RPC Endpoint Mapper<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">136–139</div>
+                <div class="back">NetBIOS<br>Legacy Windows Networking<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">445</div>
+                <div class="back">MS AD / SMB<br>Modern File Sharing / Directory<div class="protocol">TCP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">515</div>
+                <div class="back">LPD<br>Line Printer Daemon Services<div class="protocol">TCP</div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>📧 Email & Time</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">25</div>
+                <div class="back">SMTP<br>Email Routing/Sending<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">110</div>
+                <div class="back">POP3<br>Post Office Protocol v3<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">143</div>
+                <div class="back">IMAP<br>Internet Message Access Protocol<div class="protocol">TCP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">123</div>
+                <div class="back">NTP<br>Network Time Protocol<div class="protocol">UDP</div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>📊 Databases & Auth</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">1433</div>
+                <div class="back">MS SQL Server<br>Database Engine<div class="protocol">TCP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">1434</div>
+                <div class="back">MS SQL Monitor<br>SQL Browser Service<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">1521</div>
+                <div class="back">Oracle<br>Database Listener<div class="protocol">TCP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">1812 / 1813</div>
+                <div class="back">RADIUS<br>Authentication & Accounting<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+    </div>
+
+    <h2>🛠️ Management & IP</h2>
+    <div class="grid">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">67 / 68</div>
+                <div class="back">DHCP Server / Client<br>IP Assignment<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">69</div>
+                <div class="back">TFTP<br>Trivial FTP (Boot/Config)<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">161 / 162</div>
+                <div class="back">SNMP / Traps<br>Network Management<div class="protocol">UDP / (162: TCP, UDP)</div></div>
+            </div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard-inner">
+                <div class="front">500</div>
+                <div class="back">ISAKMP / IKE<br>VPN Tunnel Negotiation<div class="protocol">TCP, UDP</div></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
