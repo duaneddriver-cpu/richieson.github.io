@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Network Ports Flashcards - Expanded</title>
+    <style>
+        :root{
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --accent: #3498db;
+            --primary: #2c3e50;
+            --muted: #6c7a89;
+            --gold: #ffd700;
+            --card-radius: 10px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            padding: 24px;
+            margin: 0;
+        }
+
+        header { text-align: center; margin-bottom: 8px; }
+        h1 { margin: 0; color: var(--primary); font-size: 1.6rem; }
+        p.lead { margin-top: 6px; color: var(--muted); }
+
+        h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 32px;
+            color: #2980b9;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        /* Flashcard Container */
+        .flashcard {
+            background-color: transparent;
+            width: 100%;
+            height: 160px;
+            perspective: 1000px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+            border-radius: var(--card-radius);
+        }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+        /* Front and Back Styling */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: var(--card-radius);
+        }
+
+        .front {
+            background-color: var(--card-bg);
+            color: var(--primary);
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .back {
+            background: linear-gradient(135deg, var(--accent), #2c82c9);
+            color: #fff;
+            transform: rotateY(180deg);
+            font-size: 0.95rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .protocol {
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .port-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+        .desc { font-size: 0.95rem; opacity: 0.95; }
+
+        /* Focus styles for accessibility */
+        .flashcard:focus {
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.22);
+            border-radius: var(--card-radius);
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 420px){
+            .front { font-size: 1.25rem; }
+            .flashcard { height: 140px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Network Ports Flashcards</h1>
+        <p class="lead">Updated with full list for PenTest+ / CySA+ prep. Click or press Enter/Space to flip a card.</p>
+    </header>
+
+    <main>
+        <h2>🛡️ Core Connectivity & Shells</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">20</div>
+                    <div class="back">
+                        <div class="port-title">FTP Data</div>
+                        <div class="desc">Actual file transfer channel</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">21</div>
+                    <div class="back">
+                        <div class="port-title">FTP Control</div>
+                        <div class="desc">Commands / Authentication (Insecure)</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">22</div>
+                    <div class="back">
+                        <div class="port-title">SSH</div>
+                        <div class="desc">Secure Shell — remote login, SFTP, SCP</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">23</div>
+                    <div class="back">
+                        <div class="port-title">Telnet</div>
+                        <div class="desc">Insecure remote terminal access</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🌐 Web & Directory Services</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">53</div>
+                    <div class="back">
+                        <div class="port-title">DNS</div>
+                        <div class="desc">Domain Name System — name resolution</div>
+                        <div class="protocol">UDP (queries), TCP (zone transfers)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">80</div>
+                    <div class="back">
+                        <div class="port-title">HTTP</div>
+                        <div class="desc">Unencrypted web traffic</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">88</div>
+                    <div class="back">
+                        <div class="port-title">Kerberos</div>
+                        <div class="desc">AD authentication / ticketing</div>
+                        <div class="protocol">TCP, UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">389</div>
+                    <div class="back">
+                        <div class="port-title">LDAP</div>
+                        <div class="desc">Directory service queries</div>
+                        <div class="protocol">TCP, UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">443</div>
+                    <div class="back">
+                        <div class="port-title">HTTPS</div>
+                        <div class="desc">Secure web traffic (TLS)</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🪟 Windows & Infrastructure</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">135</div>
+                    <div class="back">
+                        <div class="port-title">Microsoft EPMAP</div>
+                        <div class="desc">RPC Endpoint Mapper</div>
+                        <div class="protocol">TCP, UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">136–139</div>
+                    <div class="back">
+                        <div class="port-title">NetBIOS</div>
+                        <div class="desc">Legacy Windows file & name services</div>
+                        <div class="protocol">TCP, UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">445</div>
+                    <div class="back">
+                        <div class="port-title">SMB / Microsoft-DS</div>
+                        <div class="desc">Modern file sharing and Active Directory services</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">515</div>
+                    <div class="back">
+                        <div class="port-title">LPD</div>
+                        <div class="desc">Line Printer Daemon</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>📧 Email & Time</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">25</div>
+                    <div class="back">
+                        <div class="port-title">SMTP</div>
+                        <div class="desc">Email delivery & routing</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">110</div>
+                    <div class="back">
+                        <div class="port-title">POP3</div>
+                        <div class="desc">Retrieval from mail server (older)</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">143</div>
+                    <div class="back">
+                        <div class="port-title">IMAP</div>
+                        <div class="desc">Message access & syncing</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">123</div>
+                    <div class="back">
+                        <div class="port-title">NTP</div>
+                        <div class="desc">Network Time Protocol</div>
+                        <div class="protocol">UDP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>📊 Databases & Auth</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">1433</div>
+                    <div class="back">
+                        <div class="port-title">MS SQL Server</div>
+                        <div class="desc">SQL Server database engine</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">1434</div>
+                    <div class="back">
+                        <div class="port-title">MS SQL Monitor</div>
+                        <div class="desc">SQL Browser / monitoring service</div>
+                        <div class="protocol">UDP (listener), TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">1521</div>
+                    <div class="back">
+                        <div class="port-title">Oracle Listener</div>
+                        <div class="desc">Oracle database connection listener</div>
+                        <div class="protocol">TCP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">1812 / 1813</div>
+                    <div class="back">
+                        <div class="port-title">RADIUS</div>
+                        <div class="desc">Authentication (1812) & Accounting (1813)</div>
+                        <div class="protocol">UDP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🛠️ Management & IP</h2>
+        <div class="grid">
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">67 / 68</div>
+                    <div class="back">
+                        <div class="port-title">DHCP</div>
+                        <div class="desc">Server / Client — automatic IP assignment</div>
+                        <div class="protocol">UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">69</div>
+                    <div class="back">
+                        <div class="port-title">TFTP</div>
+                        <div class="desc">Trivial FTP — simple file transfers (boot/config)</div>
+                        <div class="protocol">UDP</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">161 / 162</div>
+                    <div class="back">
+                        <div class="port-title">SNMP / Traps</div>
+                        <div class="desc">Network management (queries and traps)</div>
+                        <div class="protocol">UDP (161 queries), UDP (162 traps)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard" tabindex="0" role="button" aria-pressed="false" onclick="toggleFlip(this)" onkeydown="keyToggle(event, this)">
+                <div class="flashcard-inner">
+                    <div class="front">500</div>
+                    <div class="back">
+                        <div class="port-title">ISAKMP / IKE</div>
+                        <div class="desc">VPN tunnel negotiation (IKEv1/IKEv2)</div>
+                        <div class="protocol">UDP (commonly)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle a card's flipped state
+        function toggleFlip(card){
+            const pressed = card.classList.toggle('flipped');
+            card.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+        }
+
+        // Allow Enter/Space to flip a card when focused
+        function keyToggle(event, card){
+            const code = event.code || event.key;
+            if (code === 'Enter' || code === 'Space' || code === ' '){
+                event.preventDefault();
+                toggleFlip(card);
+            }
+        }
+
+        // Allow Escape to unflip all cards
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.flashcard.flipped').forEach(c => {
+                    c.classList.remove('flipped');
+                    c.setAttribute('aria-pressed', 'false');
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
